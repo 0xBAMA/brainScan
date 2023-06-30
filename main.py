@@ -3,6 +3,12 @@ import tkinter as tk                            # display
 from PIL import Image, ImageChops, ImageTk      # image manip
 import numpy as np                              # numerical stuff, for the data array
 import random                                   # something to get some random numbers
+import time                                     # something for timer, tbd
+
+'''
+# I believe this is something workable, to update the image contents
+# https://stackoverflow.com/questions/2400262/how-can-i-schedule-updates-f-e-to-update-a-clock-in-tkinter
+'''
 
 # create the window
 window = tk.Tk()
