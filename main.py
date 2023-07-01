@@ -5,11 +5,6 @@ import numpy as np								# numerical stuff, for the data array
 import random									# something to get some random numbers
 import time										# something for timer, tbd
 
-'''
-# I believe this is something workable, to update the image contents
-# https://stackoverflow.com/questions/2400262/how-can-i-schedule-updates-f-e-to-update-a-clock-in-tkinter
-'''
-
 class brainScan_t():
 	def __init__( self ):
 		self.root = tk.Tk()
@@ -20,9 +15,9 @@ class brainScan_t():
 		self.arrayImage = Image.fromarray( self.dataArray, mode="RGB" )
 
 		# populate the image with some random data
-		for x in range( 0, 1000 ):
-			for y in range( 100, 400 ):
-				self.arrayImage.putpixel( ( x, y ), ( random.randint( 0, 255 ), 128, 128 ) )
+		# for x in range( 0, 1000 ):
+		# 	for y in range( 100, 400 ):
+		# 		self.arrayImage.putpixel( ( x, y ), ( random.randint( 0, 255 ), 128, 128 ) )
 
 		self.displayImage = ImageTk.PhotoImage( self.arrayImage ) # create the tk version of it
 
@@ -38,7 +33,6 @@ class brainScan_t():
 		# write the new pixel data at the leading edge
 		for y in range( 100, 400 ):
 			self.arrayImage.putpixel( ( 0, y ), ( random.randint( 0, 255 ), random.randint( 0, 255 ), random.randint( 0, 255 ) ) );
-
 
 		self.displayImage = ImageTk.PhotoImage( self.arrayImage )
 		self.label.configure( image = self.displayImage )
