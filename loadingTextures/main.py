@@ -16,6 +16,8 @@ from OpenGL.GL import *										# OpenGL API interface
 from OpenGL.GL.shaders import compileProgram, compileShader	# for convenience
 import numpy as np											# for typed arrays
 import ctypes												# for void pointer type, when buffering data
+import array												# array data type
+
 
 class brainScan_t():
 # ================================================================================================
@@ -30,11 +32,11 @@ class brainScan_t():
 		glClearColor( 0.1, 0.2, 0.2, 1.0 )
 
 		# get the compiled shader, from the files on disk - then set it as the active shader program
-		self.shader = self.createShader( "helloTriangle/basic.vs.glsl", "helloTriangle/basic.fs.glsl" )
+		self.shader = self.createShader( "loadingTextures/basic.vs.glsl", "loadingTextures/basic.fs.glsl" )
 		glUseProgram( self.shader )
 
 		# create the geometry
-		self.geo = texturedQuad_t()
+		self.geo = helloTriangle_t()
 
 		# enter the program's main loop
 		self.mainLoop()
@@ -98,19 +100,36 @@ class brainScan_t():
 		pygame.quit()
 
 
-class texturedQuad_t():
+class helloTriangle_t():
 # ================================================================================================
 	def __init__( self ):
 # ================================================================================================
-		# Hello Triangle x,y,z + r,g,b per vertex
-		self.vertices = (
-			-0.5, -0.5, 0.0, 1.0, 0.0, 0.0, # red
-			 0.5, -0.5, 0.0, 0.0, 1.0, 0.0, # green
-			 0.0,  0.5, 0.0, 0.0, 0.0, 1.0, # blue
-		)
+		self.vertexArrayData = []
+
+		# so this is pretty straightforward, will be able to set up the quad pretty easily from here
+		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.0 )
+
+		self.vertexArrayData.append(  0.5 )
+		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append(  0.0 )
+
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.5 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  1.0 )
 
 		# set up to interpret data correctly, as 32-bit floating point
-		self.vertices = np.array( self.vertices, dtype=np.float32 )
+		self.vertices = np.array( self.vertexArrayData, dtype=np.float32 )
 		self.vertexCount = 3
 
 		# create the vertex array object, kind of a container for buffers
