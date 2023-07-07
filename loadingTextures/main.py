@@ -36,7 +36,10 @@ class brainScan_t():
 		glUseProgram( self.shader )
 
 		# create the geometry
-		self.geo = helloTriangle_t()
+		self.geo = quad_t()
+
+		# loading and creating the texture
+		self.texture = texture_t()
 
 		# enter the program's main loop
 		self.mainLoop()
@@ -100,7 +103,7 @@ class brainScan_t():
 		pygame.quit()
 
 
-class helloTriangle_t():
+class quad_t():
 # ================================================================================================
 	def __init__( self ):
 # ================================================================================================
@@ -156,6 +159,45 @@ class helloTriangle_t():
 		glDeleteVertexArrays( 1, ( self.vao, ) )
 		glDeleteBuffers( 1, ( self.vbo, ) )
 
+
+class texture_t():
+# ================================================================================================
+	def __init__( self ):
+# ================================================================================================
+		# create the API resource
+		self.texture = glGenTextures( 1 )
+
+		# bind to the GL_TEXTURE_2D bind point
+		glBindTexture( GL_TEXTURE_2D, self.texture )
+
+		# create a complete texture - these parameters do not have good defaults
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT )
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT )
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR )
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR )
+
+		# load the image from disk, get dimensions, convert to bytes
+		image = pygame.image.load( "loadingTextures/test.png" ).convert_alpha()
+		imageWidth, imageHeight = image.get_rect().size
+		imageData = pygame.image.tostring( image, "RGBA" )
+
+		# send this data to the GPU, via the graphics API
+		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData )
+
+# ================================================================================================
+	def use( self ):
+# ================================================================================================
+		# set the texture unit which subsequent commands will apply to
+		glActiveTexture( GL_TEXTURE0 )
+
+		# bind the texture, to the GL_TEXTURE_2D bind point in texture unit 0
+		glBindTexture( GL_TEXTURE_2D, self.texture )
+
+# ================================================================================================
+	def destroy( self ):
+# ================================================================================================
+		# API resource cleanup
+		glDeleteTextures( 1, ( self.texture, ) )
 
 # defines entrypoint to the program? weird
 if __name__ == "__main__":
