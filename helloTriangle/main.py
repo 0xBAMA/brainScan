@@ -11,7 +11,7 @@
 # pip install pyopengl
 # pip install pyopengl_accelerate
 
-import pygame as pg											# some infrastructure, windowing, event handling, etc
+import pygame												# some infrastructure, windowing, event handling, etc
 from OpenGL.GL import *										# OpenGL API interface
 from OpenGL.GL.shaders import compileProgram, compileShader	# for convenience
 import numpy as np											# for typed arrays
@@ -21,10 +21,12 @@ class brainScan_t():
 # ================================================================================================
 	def __init__( self ):
 # ================================================================================================
-		pg.init()
-		pg.display.set_mode( ( 640, 480 ), pg.OPENGL|pg.DOUBLEBUF )
-		self.clock = pg.time.Clock()
+		# initialize windowing stuff
+		pygame.init()
+		pygame.display.set_mode( ( 640, 480 ), pygame.OPENGL|pygame.DOUBLEBUF )
+		self.clock = pygame.time.Clock()
 
+		# set the OpenGL clear color - this is the value written to the color buffer by glClear()
 		glClearColor( 0.1, 0.2, 0.2, 1.0 )
 
 		# get the compiled shader, from the files on disk - then set it as the active shader program
@@ -65,8 +67,8 @@ class brainScan_t():
 		while ( running ):
 
 			# iterate through the event queue
-			for event in pg.event.get():
-				if ( event.type == pg.QUIT ):
+			for event in pygame.event.get():
+				if ( event.type == pygame.QUIT ):
 					running = False
 
 			# clear the current contents of the screen ( color buffer )
@@ -80,7 +82,7 @@ class brainScan_t():
 			glDrawArrays( GL_TRIANGLES, 0, self.geo.vertexCount )
 
 			# swap double buffers, to show what's just been drawn
-			pg.display.flip()
+			pygame.display.flip()
 
 			# called once per frame, tells it how long to wait ( 60 fps, waits ~16ms )
 			self.clock.tick( 60 )
@@ -93,7 +95,7 @@ class brainScan_t():
 # ================================================================================================
 		self.geo.destroy()
 		glDeleteProgram( self.shader )
-		pg.quit()
+		pygame.quit()
 
 
 class helloTriangle_t():
@@ -134,7 +136,6 @@ class helloTriangle_t():
 		# API resource cleanup - weird syntax, expects list type, even though it's a single item here
 		glDeleteVertexArrays( 1, ( self.vao, ) )
 		glDeleteBuffers( 1, ( self.vbo, ) )
-
 
 
 # defines entrypoint to the program? weird
