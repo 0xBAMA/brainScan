@@ -73,6 +73,7 @@ class brainScan_t():
 		# time offset
 		offset = 0.0
 
+		# main loop
 		while ( running ):
 
 			# iterate through the event queue
@@ -123,43 +124,43 @@ class quad_t():
 		# this is super ugly, but at this stage not super important
 
 		# point A location, texcoord
-		self.vertexArrayData.append( -0.5 )
-		self.vertexArrayData.append(  0.5 )
+		self.vertexArrayData.append( -1.0 )
+		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  0.0 )
 
 		# point B location, texcoord
-		self.vertexArrayData.append(  0.5 )
-		self.vertexArrayData.append(  0.5 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 
 		# point C location, texcoord
-		self.vertexArrayData.append( -0.5 )
-		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append( -1.0 )
+		self.vertexArrayData.append( -1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
 
 		# point B location, texcoord
-		self.vertexArrayData.append(  0.5 )
-		self.vertexArrayData.append(  0.5 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 
 		# point D location, texcoord
-		self.vertexArrayData.append(  0.5 )
-		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append( -1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  1.0 )
 
 		# point C location, texcoord
-		self.vertexArrayData.append( -0.5 )
-		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append( -1.0 )
+		self.vertexArrayData.append( -1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
