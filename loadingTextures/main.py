@@ -67,8 +67,12 @@ class brainScan_t():
 # ================================================================================================
 	def mainLoop( self ):
 # ================================================================================================
-
+		# loop control
 		running = True
+
+		# time offset
+		offset = 0.0
+
 		while ( running ):
 
 			# iterate through the event queue
@@ -82,6 +86,13 @@ class brainScan_t():
 			# set up to draw hello triangle
 			glUseProgram( self.shader )
 			glBindVertexArray( self.geo.vao )
+
+			# set the texture active
+			self.texture.use()
+
+			# pass the time offset to the GPU
+			offset = ( offset + 0.001 ) % 1.0
+			glUniform1f( glGetUniformLocation( self.shader, "offset" ), offset )
 
 			# draw three vertices, starting at 0 offset in the buffer, interpreted as a triangle
 			glDrawArrays( GL_TRIANGLES, 0, self.geo.vertexCount )
@@ -109,31 +120,53 @@ class quad_t():
 # ================================================================================================
 		self.vertexArrayData = []
 
-		# so this is pretty straightforward, will be able to set up the quad pretty easily from here
+		# this is super ugly, but at this stage not super important
+
+		# point A location, texcoord
 		self.vertexArrayData.append( -0.5 )
-		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append(  0.5 )
 		self.vertexArrayData.append(  0.0 )
-		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  0.0 )
 
+		# point B location, texcoord
 		self.vertexArrayData.append(  0.5 )
-		self.vertexArrayData.append( -0.5 )
-		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.5 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
 		self.vertexArrayData.append(  0.0 )
 
+		# point C location, texcoord
+		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append( -0.5 )
 		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  1.0 )
+
+		# point B location, texcoord
+		self.vertexArrayData.append(  0.5 )
 		self.vertexArrayData.append(  0.5 )
 		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append(  0.0 )
+
+		# point D location, texcoord
+		self.vertexArrayData.append(  0.5 )
+		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append(  0.0 )
+		self.vertexArrayData.append(  1.0 )
+		self.vertexArrayData.append(  1.0 )
+
+		# point C location, texcoord
+		self.vertexArrayData.append( -0.5 )
+		self.vertexArrayData.append( -0.5 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  0.0 )
 		self.vertexArrayData.append(  1.0 )
 
 		# set up to interpret data correctly, as 32-bit floating point
 		self.vertices = np.array( self.vertexArrayData, dtype=np.float32 )
-		self.vertexCount = 3
+		self.vertexCount = 6
 
 		# create the vertex array object, kind of a container for buffers
 		self.vao = glGenVertexArrays( 1 )
@@ -147,10 +180,10 @@ class quad_t():
 		glBufferData( GL_ARRAY_BUFFER, self.vertices.nbytes, self.vertices, GL_STATIC_DRAW )
 
 		# set up pointers to the data for the shader to know how to index the data in the buffer
-		glEnableVertexAttribArray( 0 ) # 0 is position, 3 floats per vertex, stride of 24 bytes starting at 0
-		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 24, ctypes.c_void_p( 0 ) )
-		glEnableVertexAttribArray( 1 ) # 1 is color, 3 floats per vertex, stride of 24 bytes starting at 12
-		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 24, ctypes.c_void_p( 12 ) )
+		glEnableVertexAttribArray( 0 ) # 0 is position, 3 floats per vertex, stride of 20 bytes starting at 0
+		glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 20, ctypes.c_void_p( 0 ) )
+		glEnableVertexAttribArray( 1 ) # 1 is texcoord, 2 floats per vertex, stride of 20 bytes starting at 12
+		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 20, ctypes.c_void_p( 12 ) )
 
 # ================================================================================================
 	def destroy( self ):
